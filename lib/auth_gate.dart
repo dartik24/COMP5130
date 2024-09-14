@@ -19,14 +19,16 @@ class AuthGate extends StatelessWidget {
             providers: [
               firebase.EmailAuthProvider(),
             ],
+            //signing guidance
             subtitleBuilder: (context, action) {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: action == firebase.AuthAction.signIn
-                    ? const Text('Welcome to FlutterFire, please sign in!')
-                    : const Text('Welcome to Flutterfire, please sign up!'),
+                    ? const Text('Welcome to COMP5310Demo, please sign in!')
+                    : const Text('Welcome to COMP5310Demo, please sign up!'),
               );
             },
+            //consent and notification
             footerBuilder: (context, action) {
               return const Padding(
                 padding: EdgeInsets.only(top: 16),
