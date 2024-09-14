@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "566080123088",
+    "project_id": "comp5130",
+    "storage_bucket": "comp5130.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566080123088:android:48feaa145a95e84c5b2ed5",
+        "android_client_info": {
+          "package_name": "com.example.comp5130_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaKFAlamBdQpVKGf-oxWIH7ubI1GeDYMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
