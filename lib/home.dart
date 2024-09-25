@@ -35,11 +35,28 @@ class HomeScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            Text(
-              'Welcome!',
-              style: Theme.of(context).textTheme.displaySmall,
-            ),
-            const SignOutButton(),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: 35,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      color: Colors.purple.withOpacity(0.5),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      borderOnForeground: true,
+                      elevation: 5,
+                      margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                      child: const ListTile(
+                        leading: ClipRRect(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)),
+                            child: Text("Sample")),
+                      ),
+                    );
+                  }),
+            )
           ],
         ),
       ),
