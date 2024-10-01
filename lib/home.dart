@@ -8,6 +8,9 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        shadowColor: Colors.black,
+        backgroundColor: Colors.deepPurple,
+        title: const Text("Welcome to Card Trader!"),
         actions: [
           IconButton(
             icon: const Icon(Icons.person),
@@ -17,6 +20,8 @@ class HomeScreen extends StatelessWidget {
                 MaterialPageRoute<ProfileScreen>(
                   builder: (context) => ProfileScreen(
                     appBar: AppBar(
+                      shadowColor: Colors.black,
+                      backgroundColor: Colors.deepPurple,
                       title: const Text('User Profile'),
                     ),
                     actions: [
@@ -37,9 +42,10 @@ class HomeScreen extends StatelessWidget {
           children: [
             Expanded(
               child: ListView.builder(
-                  itemCount: 35,
+                  itemCount: 50,
                   itemBuilder: (context, index) {
                     return Card(
+                      shadowColor: Colors.black,
                       color: Colors.purple.withOpacity(0.5),
                       shape: RoundedRectangleBorder(
                         side: BorderSide(color: Colors.black),
@@ -52,7 +58,7 @@ class HomeScreen extends StatelessWidget {
                         leading: ClipRRect(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10.0)),
-                            child: Text("Sample")),
+                            child: Text("Card")),
                       ),
                     );
                   }),

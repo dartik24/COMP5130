@@ -24,8 +24,8 @@ class AuthGate extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: action == firebase.AuthAction.signIn
-                    ? const Text('Welcome to COMP5130Demo, please sign in!')
-                    : const Text('Welcome to COMP5130Demo, please sign up!'),
+                    ? const Text('Welcome to Card Trader, please sign in!')
+                    : const Text('Welcome to Card Trader, please sign up!'),
               );
             },
             //consent and notification
