@@ -1,8 +1,54 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart' hide AuthProvider;
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+List card = [];
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late Future<void> _dataFuture;
+
+  Future<void> _activateListeners() async {
+    try {
+      DatabaseReference ref = FirebaseDatabase.instance.ref("Card");
+      DatabaseEvent event = await ref.once();
+
+      if (event.snapshot.exists) {
+        final map = event.snapshot.value as Map<dynamic, dynamic>;
+        map.forEach((key, value) {
+          value.forEach((k, v) {
+            if (v is Map) {
+              Map<String, dynamic> cardData = {
+                'ID': value['ID'],
+                'Name': value['Name'],
+                'Value': value['Value'],
+                'Image': value['Image'],
+                'Game': value['Game'],
+              };
+              card.add(cardData);
+            }
+          });
+        });
+      } else {
+        print("No data found at the 'Card' reference.");
+      }
+    } catch (e) {
+      print("Error fetching data from Firebase: $e");
+    }
+
+    setState(() {}); // Update the UI when data is fetched
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _dataFuture = _activateListeners();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +88,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             Expanded(
               child: ListView.builder(
-                  itemCount: 50,
+                  itemCount: card.length,
                   itemBuilder: (context, index) {
                     return Card(
                       shadowColor: Colors.black,
@@ -54,11 +100,11 @@ class HomeScreen extends StatelessWidget {
                       borderOnForeground: true,
                       elevation: 5,
                       margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                      child: const ListTile(
+                      child: ListTile(
                         leading: ClipRRect(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10.0)),
-                            child: Text("Card")),
+                            child: Text("${card[index]['Name']}")),
                       ),
                     );
                   }),

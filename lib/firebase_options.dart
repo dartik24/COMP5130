@@ -36,6 +36,7 @@ class DefaultFirebaseOptions {
     authDomain: 'comp5130.firebaseapp.com',
     storageBucket: 'comp5130.appspot.com',
     measurementId: 'G-KGFM2ED1TT',
+    databaseURL: 'https://comp5130-default-rtdb.firebaseio.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
@@ -44,6 +45,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '566080123088',
     projectId: 'comp5130',
     storageBucket: 'comp5130.appspot.com',
+    databaseURL: 'https://comp5130-default-rtdb.firebaseio.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -53,6 +55,7 @@ class DefaultFirebaseOptions {
     projectId: 'comp5130',
     storageBucket: 'comp5130.appspot.com',
     iosBundleId: 'com.example.comp5130Project',
+    databaseURL: 'https://comp5130-default-rtdb.firebaseio.com',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -62,6 +65,7 @@ class DefaultFirebaseOptions {
     projectId: 'comp5130',
     storageBucket: 'comp5130.appspot.com',
     iosBundleId: 'com.example.comp5130Project',
+    databaseURL: 'https://comp5130-default-rtdb.firebaseio.com',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
@@ -72,5 +76,6 @@ class DefaultFirebaseOptions {
     authDomain: 'comp5130.firebaseapp.com',
     storageBucket: 'comp5130.appspot.com',
     measurementId: 'G-Y6CZEF2TNZ',
+    databaseURL: 'https://comp5130-default-rtdb.firebaseio.com',
   );
 }
