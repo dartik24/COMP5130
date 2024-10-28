@@ -20,20 +20,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
       if (event.snapshot.exists) {
         final map = event.snapshot.value as Map<dynamic, dynamic>;
-        map.forEach((key, value) {
-          value.forEach((k, v) {
-            if (v is Map) {
-              Map<String, dynamic> cardData = {
-                'ID': value['ID'],
-                'Name': value['Name'],
-                'Value': value['Value'],
-                'Image': value['Image'],
-                'Game': value['Game'],
-              };
-              card.add(cardData);
-            }
-          });
-        });
+        print(map);
+
+        for (var cardName in map['Name'].keys) {
+          var cardData = {
+            'ID': map['ID'][cardName],
+            'Name': map['Name'][cardName],
+            'Value': map['Value'][cardName],
+            'Image': map['Image'][cardName],
+            'Game': map['Game'][cardName],
+          };
+
+          card.add({cardName: cardData});
+        }
       } else {
         print("No data found at the 'Card' reference.");
       }
@@ -41,7 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
       print("Error fetching data from Firebase: $e");
     }
 
-    setState(() {}); // Update the UI when data is fetched
+    print(card);
+    setState(() {});
   }
 
   @override
@@ -56,7 +56,13 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         shadowColor: Colors.black,
         backgroundColor: Colors.deepPurple,
-        title: const Text("Welcome to Card Trader!"),
+        title: const Text(
+          "Welcome to Card Trader!",
+          style: TextStyle(
+            fontSize: 38,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.person),
@@ -88,26 +94,68 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Expanded(
               child: ListView.builder(
-                  itemCount: card.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      shadowColor: Colors.black,
-                      color: Colors.purple.withOpacity(0.5),
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(15.0),
+                itemCount: card.length,
+                itemBuilder: (context, index) {
+                  var cardData = card[index].values.first;
+
+                  return Card(
+                    shadowColor: Colors.black,
+                    color: Colors.purple.withOpacity(0.5),
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    borderOnForeground: true,
+                    elevation: 5,
+                    margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Image.network(
+                              cardData['Image'],
+                              width: 150,
+                              height: 200,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  cardData['Name'],
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 32,
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Text("Game: ${cardData['Game']}",
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                    )),
+                                Text("ID: ${cardData['ID']}",
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                    )),
+                                Text("Value: ${cardData['Value']}",
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                    )),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      borderOnForeground: true,
-                      elevation: 5,
-                      margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                      child: ListTile(
-                        leading: ClipRRect(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
-                            child: Text("${card[index]['Name']}")),
-                      ),
-                    );
-                  }),
+                    ),
+                  );
+                },
+              ),
             )
           ],
         ),
