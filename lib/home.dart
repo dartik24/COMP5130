@@ -82,8 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     showModalBottomSheet(
       context: context,
-      isScrollControlled:
-          true, // Allows the modal to expand fully on the screen
+      isScrollControlled: true,
       builder: (BuildContext context) {
         return Padding(
           padding: EdgeInsets.only(
