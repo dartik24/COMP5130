@@ -10,6 +10,8 @@ List card = [];
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    //The below line needs to be enabled prior to Android application building
+    // name: "COMP5130",
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
