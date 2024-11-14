@@ -83,7 +83,6 @@ class _HomeScreenState extends State<HomeScreen> {
         "Image/$name": image,
         "Game/$name": game,
       });
-
       print("Card added successfully");
       setState(() {
         card.add({
@@ -95,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
             'Game': game,
           }
         });
+        filtered = List.from(card);
       });
     } catch (e) {
       print("Error adding card to Firebase: $e");
