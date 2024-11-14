@@ -232,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Row(
           children: [
             const Text(
-              "Welcome to Card Trader!",
+              "Welcome!",
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
