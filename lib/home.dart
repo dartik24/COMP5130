@@ -14,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late Future<void> _dataFuture;
   final DatabaseReference ref = FirebaseDatabase.instance.ref("Card");
+  final TextEditingController searchController = TextEditingController();
 
   Future<void> activateListeners() async {
     try {
@@ -42,10 +43,35 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     print(card);
+    filtered = List.from(card);
     setState(() {});
   }
 
-  void filter(String input) {}
+  void filter(String input) {
+    if (input.isEmpty) {
+      setState(() {
+        filtered = List.from(card);
+      });
+    } else {
+      setState(() {
+        filtered = card.where((element) {
+          var CardData = element.values.first;
+          return CardData["Name"]
+                  .toString()
+                  .toLowerCase()
+                  .contains(input.toLowerCase()) ||
+              CardData["Game"]
+                  .toString()
+                  .toLowerCase()
+                  .contains(input.toLowerCase()) ||
+              CardData["ID"]
+                  .toString()
+                  .toLowerCase()
+                  .contains(input.toLowerCase());
+        }).toList();
+      });
+    }
+  }
 
   Future<void> add(
       String id, String name, String value, String image, String game) async {
@@ -76,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void CardForm(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     final TextEditingController idController = TextEditingController();
     final TextEditingController nameController = TextEditingController();
     final TextEditingController valueController = TextEditingController();
@@ -96,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           child: SingleChildScrollView(
             child: Form(
-              key: _formKey,
+              key: formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -169,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
+                      if (formKey.currentState!.validate()) {
                         add(
                           idController.text,
                           nameController.text,
@@ -203,12 +229,40 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         shadowColor: Colors.black,
         backgroundColor: Colors.deepPurple,
-        title: const Text(
-          "Welcome to Card Trader!",
-          style: TextStyle(
-            fontSize: 38,
-            fontWeight: FontWeight.bold,
-          ),
+        title: Row(
+          children: [
+            const Text(
+              "Welcome to Card Trader!",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(
+              width: 16,
+            ),
+            Flexible(
+              child: TextField(
+                controller: searchController,
+                decoration: InputDecoration(
+                  hintText: "Input Card/Game/Seller Name...",
+                  fillColor: Colors.white,
+                  filled: true,
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 16.0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    borderSide: BorderSide.none,
+                  ),
+                  prefixIcon: const Icon(Icons.search),
+                ),
+                onChanged: (value) {
+                  filter(value);
+                },
+              ),
+            ),
+          ],
         ),
         actions: [
           IconButton(
@@ -241,9 +295,9 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: card.length,
+                itemCount: filtered.length,
                 itemBuilder: (context, index) {
-                  var cardData = card[index].values.first;
+                  var cardData = filtered[index].values.first;
 
                   return Card(
                     shadowColor: Colors.black,
