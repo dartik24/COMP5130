@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 List card = [];
+List filtered = [];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late Future<void> _dataFuture;
   final DatabaseReference ref = FirebaseDatabase.instance.ref("Card");
 
-  Future<void> _activateListeners() async {
+  Future<void> activateListeners() async {
     try {
       DatabaseEvent event = await ref.once();
 
@@ -44,7 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
-  Future<void> _addCard(
+  void filter(String input) {}
+
+  Future<void> add(
       String id, String name, String value, String image, String game) async {
     try {
       await ref.update({
@@ -72,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void _showAddCardForm(BuildContext context) {
+  void CardForm(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
     final TextEditingController idController = TextEditingController();
     final TextEditingController nameController = TextEditingController();
@@ -167,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        _addCard(
+                        add(
                           idController.text,
                           nameController.text,
                           valueController.text,
@@ -191,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _dataFuture = _activateListeners();
+    _dataFuture = activateListeners();
   }
 
   @override
@@ -305,7 +308,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showAddCardForm(context),
+        onPressed: () => CardForm(context),
         child: const Icon(Icons.add),
         backgroundColor: Colors.deepPurple,
       ),
